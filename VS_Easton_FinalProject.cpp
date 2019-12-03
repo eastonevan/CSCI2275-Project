@@ -29,6 +29,81 @@ struct Product
 
 class Business
 {
+private: 
+	string name;
+	int busProfit;
+	Warehouse bHouse;
+	StoreLL stores;
+public:
+	Business()
+	{
+		name="";
+		busProfit=0;
+	}
+
+	Business(string n)
+	{
+		name=n;
+	}
+	/*
+	function: addProduct
+	purpose: adds a product to the Business's warehouse
+	return void
+	*/
+	void addProduct(string product)
+	{
+
+	}
+
+	/*
+	function: deleteProduct
+	purpose: deletes a product from the Business's warehouse
+	return void
+	*/
+	void deleteProduct(string product)
+	{
+
+	}
+
+	/*
+	function: checkBInventory
+	purpose: prints the info of a product in the Business's warehouse
+	return void
+	*/
+	void checkBInventory(string product)
+	{
+
+	}
+
+	/*
+	function: shipProduct
+	purpose: ships a selected number of a product to a store in the Business's StoreLL
+	return void
+	*/
+	void shipProduct(string product, int numShipped, string storeName)
+	{
+
+	}
+
+	/*
+	function: businessMenu
+	purpose: runs the certain business's menu and all of its own features
+	return void
+	*/
+	void businessMenu()
+	{
+
+	}
+
+	int getBusProfit()
+	{
+		return busProfit
+	}
+
+	void addProfit(int prof)
+	{
+		busProfit+=prof;
+	}
 
 };
 
@@ -42,9 +117,14 @@ class Business
 
 class Warehouse
 {
+private:
+	Product *root;
 
 public:
-	Product *root = NULL;
+	Warehouse()
+	{
+		root=NULL;
+	}
 
 	/*
 	function: delete product
@@ -92,11 +172,76 @@ public:
 
 
 /*===========
-	Store
+	Stores
   ===========*/
 
-class Store
+
+struct storeNode
 {
+	string name;
+	Warehouse sHouse;
+	storeNode *next;
+};
+
+class StoreLL
+{
+private:
+	StoreLL *head;
+	StoreLL *tail:
+
+public:
+	StoreLL()
+	{
+		head=NULL;
+		tail=NULL;
+	}
+
+	/* 
+	function: insertStore
+	purpose: creates a new store and adds it to the end of the storeLL
+	return void:
+	*/
+
+	void insertStore(string name)
+	{
+
+	}
+
+	/* 
+	function: deleteStore
+	purpose: deletes a store that either has no products, or if chosen to be deleted
+	return void
+	*/
+	
+	void deleteStore(string name)
+	{
+
+	}
+
+	/* 
+	function: printStores
+	purpose: prints the list of stores
+	return void
+	*/
+	
+	void printStores()
+	{
+
+	}
+
+	/* 
+	function: buyProduct
+	purpose: decrements the quantity of the product in the storeNode's warehouse
+	& increments the business's total profit
+	return void:
+	*/
+	
+	void buyProduct(string name)
+	{
+
+	}
+
+
 
 };
 
