@@ -14,6 +14,9 @@ struct Product
 	string name;
 	int price;
 	int quantity;
+	Product *left;
+	Product *right;
+	Product *parent;
 };
 
 
@@ -39,6 +42,49 @@ class Business
 
 class Warehouse
 {
+
+public:
+	Product *root = NULL;
+
+	/*
+	function: delete product
+	purpouse: deletes a product node from warehouse BST
+	return: void
+	*/
+	void deleteProduct()
+	{
+
+	}
+	/*
+	function: add product
+	purpouse: adds to current inventory or creates new BST node 
+	return void
+	*/
+	void addProduct()
+	{
+
+	}
+	/*
+	function: product info
+	purpouse: prints all inormation about the product 
+	return void
+	*/
+	void productInfo(string product)
+	{
+
+	}
+	// MAYBE - print warehouse
+	/*
+	function search warehouse
+	purpouse: helper function to traverse/ find nodes in BST
+	returns: the product if found or null if node DNE
+	*/
+	Product searchWarehouse(string product)
+	{
+
+	}
+
+
 
 };
 
