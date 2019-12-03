@@ -64,6 +64,62 @@ class Store
 
 class Driver
 {
+public:
+
+	void printMenu()
+	{
+		cout<<"1. Enter Business"<<endl;
+		cout<<"2. Create Business"<<endl;
+		cout<<"3. Delete Business"<<endl;
+		cout<<"4. Quit"<<endl;
+
+	}
+
+	void runProgram()
+	{
+		
+		while(true)
+		{
+			printMenu();
+			int choice;
+			cin>>choice;
+			switch(choice)
+			{
+				case 1:
+				{
+					//Enter Business
+					break;
+
+				}
+				case 2:
+				{
+					//Create Business
+					break;
+
+				}
+				case 3:
+				{
+					//Delete Business
+					break;
+
+				}
+				case 4:
+				{
+					//Quit;
+					break;
+
+				}
+				default:
+				{
+					cout<<"Please choose a number between 1-4"<<endl;
+					break;
+				}
+			}
+		}
+
+
+
+	}
 
 };
 
