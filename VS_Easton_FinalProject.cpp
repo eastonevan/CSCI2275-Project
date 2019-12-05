@@ -126,6 +126,24 @@ public:
 		root=NULL;
 	}
 
+	~Warehouse()
+	{
+		destruct(root);
+	}
+
+	void destruct(Product* node)
+	{
+		if(node==NULL)
+		{
+			return;
+		}
+
+		destruct(node->left);
+		delete node;
+		destruct(node->right);
+
+	}
+
 	/*
 	function: delete product
 	purpouse: deletes a product node from warehouse BST
@@ -181,6 +199,12 @@ struct storeNode
 	string name;
 	Warehouse sHouse;
 	storeNode *next;
+
+	storeNode(string n)
+	{
+		name=n;
+		next=NULL;
+	}
 };
 
 class StoreLL
@@ -204,6 +228,16 @@ public:
 
 	void insertStore(string name)
 	{
+		storeNode newNode= new storeNode(name);
+		if(head==NULL)
+		{
+			head=newNode;
+			tail=newNode;
+		}else
+		{
+			tail->next=newNode;
+			tail=newNode;
+		}
 
 	}
 
@@ -215,6 +249,45 @@ public:
 	
 	void deleteStore(string name)
 	{
+		storeNode* temp=head;
+		int prevCount=0;
+
+
+
+		while(temp!=NULL && temp->next!=NULL)
+		{
+			if(temp->name==name)
+			{
+				break;
+			}
+			temp=temp->next;
+			prevCount++;
+		}
+
+		if(temp->name!=name)
+		{
+			cout<< "Store not found." << endl;
+			return;
+		}
+
+		if(temp==head)
+		{
+			head=temp->next;
+			temp->sHouse.~Warehouse();
+			delete temp;
+		}else
+		{
+			storeNode* prev=head;
+			for(int i=1; i<prevCount; i++)
+			{
+				prev=prev->next;
+			}
+
+			prev->next=temp->next;
+			temp->sHouse.~Warehouse();
+			delete temp;
+		}
+
 
 	}
 
@@ -226,6 +299,12 @@ public:
 	
 	void printStores()
 	{
+		storeNode* temp=head;
+		while(temp!=NULL && temp->next!=NULL)
+		{
+			cout<<temp->name<<endl;
+			temp=temp->next;
+		}
 
 	}
 
