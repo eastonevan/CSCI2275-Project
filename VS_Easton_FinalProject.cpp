@@ -17,98 +17,14 @@ struct Product
 	Product *left;
 	Product *right;
 	Product *parent;
-};
 
-
-
-
-
-/*===========
-	Business
-  ===========*/
-
-class Business
-{
-private: 
-	string name;
-	int busProfit;
-	Warehouse bHouse;
-	StoreLL stores;
-public:
-	Business()
-	{
-		name="";
-		busProfit=0;
-	}
-
-	Business(string n)
+	Product(string n, int p, int q)
 	{
 		name=n;
+		price=p;
+		quantity=q;
 	}
-	/*
-	function: addProduct
-	purpose: adds a product to the Business's warehouse
-	return void
-	*/
-	void addProduct(string product)
-	{
-
-	}
-
-	/*
-	function: deleteProduct
-	purpose: deletes a product from the Business's warehouse
-	return void
-	*/
-	void deleteProduct(string product)
-	{
-
-	}
-
-	/*
-	function: checkBInventory
-	purpose: prints the info of a product in the Business's warehouse
-	return void
-	*/
-	void checkBInventory(string product)
-	{
-
-	}
-
-	/*
-	function: shipProduct
-	purpose: ships a selected number of a product to a store in the Business's StoreLL
-	return void
-	*/
-	void shipProduct(string product, int numShipped, string storeName)
-	{
-
-	}
-
-	/*
-	function: businessMenu
-	purpose: runs the certain business's menu and all of its own features
-	return void
-	*/
-	void businessMenu()
-	{
-
-	}
-
-	int getBusProfit()
-	{
-		return busProfit
-	}
-
-	void addProfit(int prof)
-	{
-		busProfit+=prof;
-	}
-
 };
-
-
-
 
 
 /*===========
@@ -158,8 +74,61 @@ public:
 	purpouse: adds to current inventory or creates new BST node 
 	return void
 	*/
-	void addProduct()
+	void addProduct(strint name, int price, int quantity)
 	{
+		Product* temp= searchWarehouse(root, name);
+
+		if(temp!=NULL)
+		{
+			cout<<"This product already exists, would you like to update its price and quantity?(0=no, 1=yes)"<<endl;
+			int choice;
+			cin>>choice;
+
+			if(choice==0)
+			{
+				return;
+			}else if(choice==1)
+			{
+				temp->price=price;
+				temp->quantity+=quantity;
+			}else{
+				cout<<"Not valid input, product not updated."<<endl;
+				return;
+			}
+		}else
+		{
+			temp= new Product(name, price, quantity);
+
+			if(root==NULL)
+			{
+				root=temp;
+				break;
+			}else{
+				Product* iter=root;
+				Product* parent=NULL;
+
+				while(iter!=NULL)
+				{
+					parent=iter;
+					if(iter->name>temp->name)
+					{
+						iter=iter->left;
+					}else{
+						iter=iter->right;
+					}
+				}
+
+				if(parent->name>temp->name)
+				{
+					parent->left=temp;
+					temp->parent=parent;
+				}else{
+					parent->right=temp;
+					temp->parent=parent;
+				}
+			}
+
+		}
 
 	}
 	/*
@@ -169,6 +138,16 @@ public:
 	*/
 	void productInfo(string product)
 	{
+		Product* temp= searchWarehouse(root, product);
+
+		if(temp==NULL)
+		{
+			cout<<"Product does not exist."<<endl;
+			return;
+		}else
+		{
+			
+		}
 
 	}
 	// MAYBE - print warehouse
@@ -177,9 +156,26 @@ public:
 	purpouse: helper function to traverse/ find nodes in BST
 	returns: the product if found or null if node DNE
 	*/
-	Product searchWarehouse(string product)
+	Product* searchWarehouse(Product* node, string product)
 	{
+		Product* temp= node;
 
+		while(temp->name!=product)
+		{
+			if(temp->name < product)
+			{
+				temp=temp->right;
+			}else {
+				temp=temp->left;
+			}
+
+			if(temp==NULL)
+			{
+				return temp;
+			}
+
+		}
+		return temp;
 	}
 
 
@@ -210,8 +206,8 @@ struct storeNode
 class StoreLL
 {
 private:
-	StoreLL *head;
-	StoreLL *tail:
+	storeNode *head;
+	storeNode *tail;
 
 public:
 	StoreLL()
@@ -228,7 +224,7 @@ public:
 
 	void insertStore(string name)
 	{
-		storeNode newNode= new storeNode(name);
+		storeNode *newNode= new storeNode(name);
 		if(head==NULL)
 		{
 			head=newNode;
@@ -318,7 +314,8 @@ public:
 	void buyProduct(string name)
 	{
 
-	}
+	};
+
 
 
 
@@ -335,6 +332,7 @@ public:
 class Driver
 {
 public:
+	vector<Business> businessVec;
 
 	void printMenu()
 	{
@@ -358,6 +356,32 @@ public:
 				case 1:
 				{
 					//Enter Business
+					cin.clear();
+					cin.ignore();
+
+					cout<<"Enter the name of the business you would like to enter."<<endl;
+					string busName;
+					cin>>busName;
+
+					Business* temp=NULL;
+					for(int i=0; i< businessVec.size(); i++)
+					{
+						if(businessVec[i].name==busName)
+						{
+							temp=businessVec[i];
+							break;
+						}
+
+					}
+
+					if(temp==NULL)
+					{
+						cout<<"Business not found."<<endl;
+						break;
+					}
+
+					temp.businessMenu();
+
 					break;
 
 				}
@@ -376,6 +400,8 @@ public:
 				case 4:
 				{
 					//Quit;
+					cout<<"Goodbye."<<endl;
+					exit(1);
 					break;
 
 				}
@@ -394,6 +420,91 @@ public:
 };
 
 
+/*===========
+	Business
+  ===========*/
+
+class Business
+{
+private: 
+	string name;
+	int busProfit;
+	Warehouse bHouse;
+	StoreLL stores;
+public:
+	Business()
+	{
+		name="";
+		busProfit=0;
+	}
+
+	Business(string n)
+	{
+		name=n;
+	}
+	/*
+	function: addProduct
+	purpose: adds a product to the Business's warehouse
+	return void
+	*/
+	void addProduct(string product)
+	{
+
+	}
+
+	/*
+	function: deleteProduct
+	purpose: deletes a product from the Business's warehouse
+	return void
+	*/
+	void deleteProduct(string product)
+	{
+
+	}
+
+	/*
+	function: checkBInventory
+	purpose: prints the info of a product in the Business's warehouse
+	return void
+	*/
+	void checkBInventory(string product)
+	{
+
+	}
+
+	/*
+	function: shipProduct
+	purpose: ships a selected number of a product to a store in the Business's StoreLL
+	return void
+	*/
+	void shipProduct(string product, int numShipped, string storeName)
+	{
+
+	}
+
+	/*
+	function: businessMenu
+	purpose: runs the certain business's menu and all of its own features
+	return void
+	*/
+	void businessMenu()
+	{
+
+	}
+
+	int getBusProfit()
+	{
+		return busProfit;
+	}
+
+	void addProfit(int prof)
+	{
+		busProfit+=prof;
+	}
+
+};
+
+
 
 
 /*===========
@@ -402,7 +513,6 @@ public:
 
 int main()
 {
-	cout<<"evan edit"<<endl;
-	cout<< "Test" << endl;
-	cout<<"Max Edit"<<endl;
+	Driver d;
+	d.runProgram();
 }
