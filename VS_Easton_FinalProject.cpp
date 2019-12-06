@@ -146,7 +146,8 @@ public:
 			return;
 		}else
 		{
-			
+			cout<<"Name: "<<temp->name<<"\nPrice: "<<temp->price<<"\nQuantity: "<<temp->quantity<<endl;
+			return;
 		}
 
 	}
