@@ -151,7 +151,26 @@ public:
 		}
 
 	}
-	// MAYBE - print warehouse
+	/*
+	function print warehouse
+	purpouse: prints all of the items in the warehouse
+	returns: void
+	*/
+	void printWarehouse(Product* root)
+	{
+		if(root==NULL)
+		{
+			return;
+		}
+		printWarehouse(root->left);
+		productInfo(root->name); 
+		printWarehouse(root->right);
+
+
+	}
+
+
+
 	/*
 	function search warehouse
 	purpouse: helper function to traverse/ find nodes in BST
