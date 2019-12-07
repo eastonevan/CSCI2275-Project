@@ -2,6 +2,7 @@
 #include<queue>
 #include<stack>
 #include<vector>
+#include<string>
 
 using namespace std;
 
@@ -74,7 +75,7 @@ public:
 	purpouse: adds to current inventory or creates new BST node 
 	return void
 	*/
-	void addProduct(strint name, int price, int quantity)
+	void addProduct(string name, int price, int quantity)
 	{
 		Product* temp= searchWarehouse(root, name);
 
@@ -102,7 +103,7 @@ public:
 			if(root==NULL)
 			{
 				root=temp;
-				break;
+				return;
 			}else{
 				Product* iter=root;
 				Product* parent=NULL;
@@ -165,8 +166,6 @@ public:
 		printWarehouse(root->left);
 		productInfo(root->name); 
 		printWarehouse(root->right);
-
-
 	}
 
 
@@ -198,6 +197,11 @@ public:
 		return temp;
 	}
 
+	Product* getRoot()
+	{
+		return root;
+	}
+
 
 
 };
@@ -221,6 +225,77 @@ struct storeNode
 		name=n;
 		next=NULL;
 	}
+
+	void storeMenu()
+	{
+		while(true)
+		{
+			cout<<"====Available Products===="<<endl;
+			sHouse.printWarehouse(sHouse.getRoot());
+			cout<<"1. Buy product."<<endl;
+			cout<<"2. Leave store."<<endl;
+
+
+			int choice;
+			cin>>choice;
+
+			if(choice==1)
+			{
+				cout<<"Type the name of the product you want to buy."<<endl;
+
+				cin.clear();
+				cin.ignore();
+
+				string pName;
+				getline(cin, pName);
+
+				Product* wanted= sHouse.searchWarehouse(sHouse.getRoot(), pName);
+
+				if(wanted==NULL)
+				{
+					cout<<"Product not found."<<endl;
+					continue;
+				}
+
+				cout<<"Enter the number you would like to buy."<<endl;
+				string q;
+				getline(cin, q);
+
+				int qWanted=stoi(q);
+
+				//finish
+
+
+
+			}else if(choice==2)
+			{
+				return;
+			}else
+			{
+				cout<<"Please pick a number 1-2." <<endl;
+			}
+
+		}
+	}
+
+
+
+	/* 
+	function: buyProduct
+	purpose: decrements the quantity of the product in the storeNode's warehouse
+	& increments the business's total profit
+	returns: the total price of the items
+	*/
+	
+	int buyProduct(string pName, int qWanted)
+	{
+		return 0;
+
+	}
+
+
+
+
 };
 
 class StoreLL
@@ -321,123 +396,28 @@ public:
 			cout<<temp->name<<endl;
 			temp=temp->next;
 		}
-
 	}
 
-	/* 
-	function: buyProduct
-	purpose: decrements the quantity of the product in the storeNode's warehouse
-	& increments the business's total profit
-	return void:
-	*/
-	
-	void buyProduct(string name)
+	storeNode* findStore(string sName)
 	{
+		storeNode* iter= head;
 
-	};
-
-
-
-
-};
-
-
-
-
-
-/*===========
-	Driver
-  ===========*/
-
-class Driver
-{
-public:
-	vector<Business> businessVec;
-
-	void printMenu()
-	{
-		cout<<"1. Enter Business"<<endl;
-		cout<<"2. Create Business"<<endl;
-		cout<<"3. Delete Business"<<endl;
-		cout<<"4. Quit"<<endl;
-
-	}
-
-	void runProgram()
-	{
-		
-		while(true)
+		while(iter!=NULL)
 		{
-			printMenu();
-			int choice;
-			cin>>choice;
-			switch(choice)
+			if(iter->name==sName)
 			{
-				case 1:
-				{
-					//Enter Business
-					cin.clear();
-					cin.ignore();
-
-					cout<<"Enter the name of the business you would like to enter."<<endl;
-					string busName;
-					cin>>busName;
-
-					Business* temp=NULL;
-					for(int i=0; i< businessVec.size(); i++)
-					{
-						if(businessVec[i].name==busName)
-						{
-							temp=businessVec[i];
-							break;
-						}
-
-					}
-
-					if(temp==NULL)
-					{
-						cout<<"Business not found."<<endl;
-						break;
-					}
-
-					temp.businessMenu();
-
-					break;
-
-				}
-				case 2:
-				{
-					//Create Business
-					break;
-
-				}
-				case 3:
-				{
-					//Delete Business
-					break;
-
-				}
-				case 4:
-				{
-					//Quit;
-					cout<<"Goodbye."<<endl;
-					exit(1);
-					break;
-
-				}
-				default:
-				{
-					cout<<"Please choose a number between 1-4"<<endl;
-					break;
-				}
+				break;
 			}
 		}
 
-
-
+		return iter;
 	}
 
+
+
 };
+
+
 
 
 /*===========
@@ -509,12 +489,84 @@ public:
 	*/
 	void businessMenu()
 	{
+		while(true)
+		{
+			cout<<"1. Add product to Business Warehouse"<<endl;
+			cout<<"2. Check a product's inventory."<<endl;
+			cout<<"3. Ship product to store"<<endl;
+			cout<<"4. Go to store."<<endl;
+			cout<<"5. Leave Business."<<endl;
+
+			int choice;
+			cin>>choice;
+			switch(choice)
+			{
+				case 1:
+				{
+					//Add Product
+
+				}
+				case 2:
+				{
+					//Check inventory
+
+				}
+				case 3:
+				{
+					//ship product
+
+				}
+				case 4:
+				{
+					//go to store
+					cin.clear();
+					cin.ignore();
+
+					cout<<"Enter the name of the store."<<endl;
+
+					string sName;
+					cin>>sName;
+
+					storeNode* tempStore= stores.findStore(sName);
+
+					if(tempStore==NULL)
+					{
+						cout<<"There is not a store under that name."<<endl;
+						break;
+					}
+
+					tempStore->storeMenu();
+					break;
+
+				}
+				case 5:
+				{
+					//leave business
+					cout<<"Returning to main menu..."<<endl;
+					return;
+
+				}
+				default:
+				{
+					cout<<"Please choose a number between 1 and 5."<<endl;
+					break;
+				}
+			}
+
+		}
+
+
 
 	}
 
 	int getBusProfit()
 	{
 		return busProfit;
+	}
+
+	string getBusName()
+	{
+		return name;
 	}
 
 	void addProfit(int prof)
@@ -524,6 +576,113 @@ public:
 
 };
 
+
+
+/*===========
+	Driver
+  ===========*/
+
+class Driver
+{
+public:
+	vector<Business> businessVec;
+
+	void printMenu()
+	{
+		cout<<"1. Enter Business"<<endl;
+		cout<<"2. Create Business"<<endl;
+		cout<<"3. Delete Business"<<endl;
+		cout<<"4. Quit"<<endl;
+
+	}
+
+	void runProgram()
+	{
+		
+		while(true)
+		{
+			printMenu();
+			int choice;
+			cin>>choice;
+			switch(choice)
+			{
+				case 1:
+				{
+					//Enter Business
+					cin.clear();
+					cin.ignore();
+
+					cout<<"Enter the name of the business you would like to enter."<<endl;
+					string busName;
+					cin>>busName;
+
+					Business* temp=NULL;
+					for(int i=0; i< businessVec.size(); i++)
+					{
+						if(businessVec[i].getBusName()==busName)
+						{
+							temp=&businessVec[i];
+							break;
+						}
+
+					}
+
+					if(temp==NULL)
+					{
+						cout<<"Business not found."<<endl;
+						break;
+					}
+
+					temp->businessMenu();
+
+					break;
+
+				}
+				case 2:
+				{
+					//Create Business
+					cin.clear();
+					cin.ignore();
+
+					string newName;
+
+					cout<<"Please enter the name of tbe business you would like to create."<<endl;
+					getline(cin,newName);
+
+					Business newBus(newName);
+
+					businessVec.push_back(newBus);
+
+					break;
+
+				}
+				case 3:
+				{
+					//Delete Business
+					break;
+
+				}
+				case 4:
+				{
+					//Quit;
+					cout<<"Goodbye."<<endl;
+					exit(1);
+					break;
+
+				}
+				default:
+				{
+					cout<<"Please choose a number between 1-4"<<endl;
+					break;
+				}
+			}
+		}
+
+
+
+	}
+
+};
 
 
 
