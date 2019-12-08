@@ -447,9 +447,15 @@ public:
 	purpose: adds a product to the Business's warehouse
 	return void
 	*/
-	void addProduct(string product)
+	void addProduct(string product, int price, int quantity)
 	{
+		Product* check = bHouse.searchWarehouse(product);
+		if(check->name==product)
+		{
 
+		}
+
+		bHouse.addProduct(product, price, quantity);
 	}
 
 	/*
@@ -469,6 +475,15 @@ public:
 	*/
 	void checkBInventory(string product)
 	{
+		Product* temp= bHouse.searchWarehouse(product);
+
+		if(temp==NULL)
+		{
+			cout<<"This product does not exist."<<endl;
+			return;
+		}
+
+		temp->productInfo();
 
 	}
 
