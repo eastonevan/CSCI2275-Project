@@ -449,9 +449,15 @@ public:
 	*/
 	void addProduct(string product, int price, int quantity)
 	{
-		Product* check = bHouse.searchWarehouse(product);
+		Product* check = bHouse.searchWarehouse(bHouse.getRoot(), product);
 		if(check->name==product)
 		{
+			cout<<"This product already exists, what would you like to do?"<<endl;
+			cout<<"1. Update price."<<endl;
+			cout<<"2. Update quantity."<<endl;
+			cout<<"3. Update both."<<endl;
+
+
 
 		}
 
@@ -475,7 +481,7 @@ public:
 	*/
 	void checkBInventory(string product)
 	{
-		Product* temp= bHouse.searchWarehouse(product);
+		Product* temp= bHouse.searchWarehouse(bHouse.getRoot(), product);
 
 		if(temp==NULL)
 		{
@@ -483,7 +489,7 @@ public:
 			return;
 		}
 
-		temp->productInfo();
+		bHouse.productInfo(temp->name);
 
 	}
 
