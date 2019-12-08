@@ -495,6 +495,7 @@ public:
 			cout<<"2. Check a product's inventory."<<endl;
 			cout<<"3. Ship product to store"<<endl;
 			cout<<"4. Go to store."<<endl;
+			cout<<"5. Create new store."<<endl;
 			cout<<"5. Leave Business."<<endl;
 
 			int choice;
@@ -541,10 +542,15 @@ public:
 				}
 				case 5:
 				{
+					//create store
+
+
+				}
+				case 6:
+				{
 					//leave business
 					cout<<"Returning to main menu..."<<endl;
 					return;
-
 				}
 				default:
 				{
