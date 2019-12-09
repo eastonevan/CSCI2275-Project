@@ -912,6 +912,28 @@ public:
 				case 3:
 				{
 					//Delete Business
+					cin.clear();
+					cin.ignore();
+					string busToBeDel;
+
+					cout<<"Input the name of the business you want to delete."<<endl;
+					getline(cin, busToBeDel);
+
+					for(int i=0; i< businessVec.size(); i++)
+					{
+						if(businessVec[i].getBusName()==busToBeDel)
+						{
+							businessVec.erase(businessVec.begin()+i);
+							busToBeDel="";
+							break;
+						}
+
+					}
+
+					if(busToBeDel!="")
+					{
+						cout<<"Business not found."<<endl;
+					}
 					break;
 
 				}
