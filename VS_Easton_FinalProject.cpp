@@ -427,7 +427,6 @@ public:
 		if(temp==head)
 		{
 			head=temp->next;
-			//temp->sHouse.~Warehouse();
 			delete temp;
 		}else
 		{
@@ -438,7 +437,6 @@ public:
 			}
 
 			prev->next=temp->next;
-			//temp->sHouse.~Warehouse();
 			delete temp;
 		}
 
