@@ -693,7 +693,7 @@ public:
 					
 					cout<<"New Product"<<endl;
 					cout<<"Name:"<<endl;
-					cin>>newName;
+					getline(cin, newName);
 					cin.clear();
 					cout<<"Price:"<<endl;
 					cin>>newPrice;
@@ -870,7 +870,7 @@ public:
 
 					cout<<"Enter the name of the business you would like to enter."<<endl;
 					string busName;
-					cin>>busName;
+					getline(cin, busName);
 					cin.clear();
 
 					Business* temp=NULL;
