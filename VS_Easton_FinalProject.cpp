@@ -175,6 +175,12 @@ public:
 	*/
 	void productInfo(string product)
 	{
+		if(root==NULL)
+		{
+			cout<<"There are no products in the warehouse"<<endl;
+			return;
+		}
+
 		Product* temp= searchWarehouse(root, product);
 
 		if(temp==NULL)
@@ -421,7 +427,7 @@ public:
 		if(temp==head)
 		{
 			head=temp->next;
-			temp->sHouse.~Warehouse();
+			//temp->sHouse.~Warehouse();
 			delete temp;
 		}else
 		{
@@ -432,7 +438,7 @@ public:
 			}
 
 			prev->next=temp->next;
-			temp->sHouse.~Warehouse();
+			//temp->sHouse.~Warehouse();
 			delete temp;
 		}
 
