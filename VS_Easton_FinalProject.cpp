@@ -14,12 +14,14 @@ using namespace std;
 struct Product
 {
 	string name;
-	int price;
+	int price; 	
 	int quantity;
-	Product *left;
+	//Product will be a node in a BST
+	Product *left;	
 	Product *right;
 	Product *parent;
 
+	//Product Constructor
 	Product(string n, int p, int q)
 	{
 		name=n;
@@ -39,11 +41,13 @@ private:
 	Product *root;
 
 public:
+	//Warehouse constructor
 	Warehouse()
 	{
 		root=NULL;
 	}
 
+	//Warehouse destructor
 	~Warehouse()
 	{
 		destruct(root);
@@ -175,19 +179,19 @@ public:
 	*/
 	void productInfo(string product)
 	{
-		if(root==NULL)
+		if(root==NULL) //if the warehouse is empty
 		{
 			cout<<"There are no products in the warehouse"<<endl;
 			return;
 		}
 
-		Product* temp= searchWarehouse(root, product);
+		Product* temp= searchWarehouse(root, product); 
 
-		if(temp==NULL)
+		if(temp==NULL) //If the product does not exist
 		{
 			cout<<"Product does not exist."<<endl;
 			return;
-		}else
+		}else  //just prints out the product info
 		{
 			cout<<"Name: "<<temp->name<<"\nPrice: "<<temp->price<<"\nQuantity: "<<temp->quantity<<endl;
 			return;
@@ -205,8 +209,9 @@ public:
 		{
 			return;
 		}
-		printWarehouse(root->left);
-		productInfo(root->name); 
+		//Recursively prints BST 
+		printWarehouse(root->left); 
+		productInfo(root->name); //prints info of product
 		printWarehouse(root->right);
 	}
 
@@ -217,8 +222,9 @@ public:
 	purpouse: helper function to traverse/ find nodes in BST
 	returns: the product if found or null if node DNE
 	*/
-	Product* searchWarehouse(Product* node, string product)
+	Product* searchWarehouse(Product* node, string product) //returns a pointer Product
 	{
+		//if the warehouse is empty node = root = null
 		if(node==NULL)
 		{
 			return NULL;
@@ -226,8 +232,9 @@ public:
 
 		Product* temp= node;
 
-		while(temp->name!=product)
+		while(temp->name!=product) //traverse until we find the name of the product
 		{
+			//traverse alphabetically
 			if(temp->name < product)
 			{
 				temp=temp->right;
@@ -235,6 +242,7 @@ public:
 				temp=temp->left;
 			}
 
+			//if the node deos not exist return NULL
 			if(temp==NULL)
 			{
 				return temp;
@@ -267,12 +275,16 @@ struct storeNode
 	Warehouse sHouse;
 	storeNode *next;
 
+	//store constructor 
 	storeNode(string n)
 	{
 		name=n;
 		next=NULL;
 	}
 
+	/*======
+	  store menu
+	  ======*/
 	void storeMenu()
 	{
 		while(true)
@@ -286,32 +298,35 @@ struct storeNode
 			int choice;
 			cin>>choice;
 
-			if(choice==1)
+			if(choice==1) 
 			{
+				//what to buy?
 				cout<<"Type the name of the product you want to buy."<<endl;
 
 				cin.clear();
 				cin.ignore();
 
 				string pName;
-				getline(cin, pName);
+				getline(cin, pName); //stores name of product
 				cin.clear();
 
 				Product* wanted= sHouse.searchWarehouse(sHouse.getRoot(), pName);
 
+				//quantity wanted?
 				cout<<"Enter the number you would like to buy."<<endl;
 				string q;
-				getline(cin, q);
+				getline(cin, q); //stores quantity of product
 				cin.clear();
 
 				int qWanted=stoi(q);
 
+				//buy product
 				buyProduct(pName, qWanted);
 
-			}else if(choice==2)
+			}else if(choice==2) //leave store
 			{
 				return;
-			}else
+			}else //if invalid input
 			{
 				cout<<"Please pick a number 1-2." <<endl;
 			}
@@ -332,20 +347,20 @@ struct storeNode
 	{
 		Product *pWanted= sHouse.searchWarehouse(sHouse.getRoot(), pName);
 
-		if(pWanted==NULL)
+		if(pWanted==NULL) //if product does not exist 
 		{
 			cout<<"Product not found."<<endl;
 		}else{
-			if(qWanted>0 && qWanted<=pWanted->quantity)
+			if(qWanted>0 && qWanted<=pWanted->quantity) //if there was a valid quanitity
 			{
 				cout<<"buying"<<endl;
 				pWanted->quantity-=qWanted;
 
-				if(pWanted->quantity==0)
+				if(pWanted->quantity==0)// if there are no more of this product, delete it from the warehouse
 				{
 					sHouse.deleteProduct(pWanted);
 				}
-			}else{
+			}else{ //invalid quantity 
 				cout<<"You either input an invalid shipping number, or there are not enough of that product"<<endl;
 				return;
 			}
@@ -400,9 +415,9 @@ public:
 	void deleteStore(string name)
 	{
 		storeNode* temp=head;
-		int prevCount=0;
+		int prevCount=0; //keep track of prev count so we can delete in a singly linked list
 
-		if(temp==NULL)
+		if(temp==NULL) //if store is not in Linked List
 		{
 			cout<<"Store not found"<<endl;
 			return;
@@ -418,18 +433,19 @@ public:
 			prevCount++;
 		}
 
-		if(temp->name!=name)
+		if(temp->name!=name)  //if the name isn't in the Linked List
 		{
 			cout<< "Store not found." << endl;
 			return;
 		}
 
-		if(temp==head)
+		if(temp==head) //if To Be Deleted is the head of the Linked List
 		{
 			head=temp->next;
 			delete temp;
 		}else
 		{
+			//re-order Linked List
 			storeNode* prev=head;
 			for(int i=1; i<prevCount; i++)
 			{
@@ -451,6 +467,7 @@ public:
 	
 	void printStores()
 	{
+		//print Linked List
 		storeNode* temp=head;
 		while(temp!=NULL)
 		{
@@ -459,24 +476,24 @@ public:
 		}
 	}
 
-	storeNode* findStore(string sName)
+	storeNode* findStore(string sName) //find store in Linked List
 	{
 		storeNode* iter= head;
 
-		if(iter==NULL)
+		if(iter==NULL) //if store does not exist - return NULL
 		{
 			return NULL;
 		}
 
-		while(iter!=NULL)
+		while(iter!=NULL) //traverese the Linked List
 		{
-			if(iter->name==sName)
+			if(iter->name==sName) //if the store is found
 			{
 				break;
 			}
 			iter=iter->next;
 		}
-		return iter;
+		return iter; //return the store
 	}
 
 
@@ -497,6 +514,7 @@ private:
 	Warehouse bHouse;
 	StoreLL stores;
 public:
+	//Business Constructor
 	Business()
 	{
 		name="";
@@ -515,14 +533,15 @@ public:
 	{
 		Product* check = bHouse.searchWarehouse(bHouse.getRoot(), name);
 
-		if(check==NULL)
+		if(check==NULL) //if the product doesn't alredy exist, add it into the Business Warehouse
 		{
 			bHouse.addProduct(product, price, quantity);
 			return;
 		}
 
-		if(check->name==product)
+		if(check->name==product) // if the product does already exist
 		{
+			//give choices on how to update the product
 			cout<<"This product already exists, what would you like to do?"<<endl;
 			cout<<"1. Update price."<<endl;
 			cout<<"2. Update quantity."<<endl;
@@ -535,6 +554,7 @@ public:
 			{
 				case 1:
 				{
+					//update price
 					cout<<"What would you like the new price to be?"<<endl;
 					int newPrice;
 
@@ -547,6 +567,7 @@ public:
 				}
 				case 2:
 				{
+					//update quantity
 					cout<<"What would you like the new quantity to be?"<<endl;
 					int newQuantity;
 
@@ -560,6 +581,7 @@ public:
 				}
 				case 3:
 				{
+					//update both
 
 					cin.clear();
 					cin.ignore();
@@ -578,7 +600,8 @@ public:
 
 				}
 				default:
-				{
+				{ 
+					//given invalid input 
 					cout<<"Invalid input, product not updated."<<endl;
 					break;
 				}
@@ -598,17 +621,17 @@ public:
 	{
 
 		Product* check= bHouse.searchWarehouse(bHouse.getRoot(), product);
-		if(check==NULL)
+		if(check==NULL) //if product doesn't exist 
 		{
 			cout<<"This product does not exist."<<endl;
 			return;
 		}
 
-		bHouse.deleteProduct(check);
+		bHouse.deleteProduct(check); //call delete 
 	}
 
 	/*
-	function: checkBInventory
+	function: checkBusinessInventory
 	purpose: prints the info of a product in the Business's warehouse
 	return void
 	*/
@@ -635,32 +658,32 @@ public:
 	{
 		Product* ship= bHouse.searchWarehouse(bHouse.getRoot(), product);
 
-		if(ship==NULL)
+		if(ship==NULL) //if product does not exist 
 		{
 			cout<<"Product not found."<<endl;
 			return;
 		}
 
-		if(numShipped>0 && numShipped<= ship->quantity)
-		{
+		if(numShipped>0 && numShipped<= ship->quantity) //given valid quantity to be shipped
+		{		
 			
 			storeNode *check= stores.findStore(storeName);
 
-			if(check==NULL)
+			if(check==NULL) //if the store input does not exist
 			{
 				cout<<"This store does not exist."<<endl;
 				return;
 			}else{
-				ship->quantity-=numShipped;
-				check->sHouse.addProduct(ship->name, ship->price, numShipped);
+				ship->quantity-=numShipped; //decrease the quantity in the Business Warehouse
+				check->sHouse.addProduct(ship->name, ship->price, numShipped); // add the product to the Store Warehouse
 
-				if(ship->quantity==0)
+				if(ship->quantity==0) //if there is no more of the product in the Business Warehouse
 				{
-					bHouse.deleteProduct(ship);
+					bHouse.deleteProduct(ship); //delete the product
 				}
 			}
 
-		}else
+		}else //given invalid input
 		{
 			cout<<"You either input an invalid shipping number, or there are not enough of that product"<<endl;
 			return;
@@ -773,6 +796,7 @@ public:
 						break;
 					}
 
+					//call store menu 
 					tempStore->storeMenu();
 					break;
 
@@ -789,6 +813,7 @@ public:
 					getline(cin, newStore);
 					cin.clear();
 
+					//insert store
 					stores.insertStore(newStore);
 					break;
 
@@ -852,6 +877,10 @@ class Driver
 public:
 	vector<Business> businessVec;
 
+
+	/*===========
+		Main Menu
+		===========*/
 	void printMenu()
 	{
 		cout<<"1. Enter Business"<<endl;
@@ -882,6 +911,7 @@ public:
 					getline(cin, busName);
 					cin.clear();
 
+					//find business
 					Business* temp=NULL;
 					for(int i=0; i< businessVec.size(); i++)
 					{
@@ -893,7 +923,7 @@ public:
 
 					}
 
-					if(temp==NULL)
+					if(temp==NULL) //if it reaches the end of the vector
 					{
 						cout<<"Business not found."<<endl;
 						break;
@@ -918,6 +948,7 @@ public:
 
 					Business newBus(newName);
 
+					//push back new business
 					businessVec.push_back(newBus);
 
 					break;
@@ -935,9 +966,10 @@ public:
 
 					for(int i=0; i< businessVec.size(); i++)
 					{
+						//find business to be deleted
 						if(businessVec[i].getBusName()==busToBeDel)
 						{
-							businessVec.erase(businessVec.begin()+i);
+							businessVec.erase(businessVec.begin()+i); //delete business
 							busToBeDel="";
 							break;
 						}
