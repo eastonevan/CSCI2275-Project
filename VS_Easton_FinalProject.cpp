@@ -531,15 +531,14 @@ public:
 	*/
 	void addProduct(string product, int price, int quantity)
 	{
-		Product* check = bHouse.searchWarehouse(bHouse.getRoot(), name);
+		Product* check = bHouse.searchWarehouse(bHouse.getRoot(), product);
 
 		if(check==NULL) //if the product doesn't alredy exist, add it into the Business Warehouse
 		{
 			bHouse.addProduct(product, price, quantity);
 			return;
-		}
-
-		if(check->name==product) // if the product does already exist
+    }
+		else
 		{
 			//give choices on how to update the product
 			cout<<"This product already exists, what would you like to do?"<<endl;
@@ -737,6 +736,7 @@ public:
 					addProduct(newName, newPrice, newQuantity);
 					break;
 
+
 				}
 				case 2:
 				{
@@ -813,9 +813,16 @@ public:
 					getline(cin, newStore);
 					cin.clear();
 
-					//insert store
-					stores.insertStore(newStore);
-					break;
+					storeNode *iter= stores.findStore(newStore);
+
+					if(iter!=NULL)
+					{
+						cout<<"This store already exists"<<endl;
+						break;
+					}else{
+						stores.insertStore(newStore);
+						break;
+          }
 
 				}
 				case 6:
@@ -875,7 +882,7 @@ public:
 class Driver
 {
 public:
-	vector<Business> businessVec;
+	vector<Business*> businessVec;
 
 
 	/*===========
@@ -915,9 +922,9 @@ public:
 					Business* temp=NULL;
 					for(int i=0; i< businessVec.size(); i++)
 					{
-						if(businessVec[i].getBusName()==busName)
+						if(businessVec[i]->getBusName()==busName)
 						{
-							temp=&businessVec[i];
+							temp=businessVec[i];
 							break;
 						}
 
@@ -946,12 +953,29 @@ public:
 					getline(cin,newName);
 					cin.clear();
 
-					Business newBus(newName);
+					Business *check=NULL;
 
-					//push back new business
-					businessVec.push_back(newBus);
 
-					break;
+					for(int i=0; i< businessVec.size(); i++)
+					{
+						if(businessVec[i]->getBusName()==newName)
+						{
+							check=businessVec[i];
+							break;
+						}
+
+					}
+
+					if(check!=NULL)
+					{
+						cout<<"This business already exists."<<endl;
+						break;
+					}else{
+						Business* newBus= new Business(newName);
+						businessVec.push_back(newBus);
+
+						break;
+					}
 
 				}
 				case 3:
@@ -966,8 +990,8 @@ public:
 
 					for(int i=0; i< businessVec.size(); i++)
 					{
-						//find business to be deleted
-						if(businessVec[i].getBusName()==busToBeDel)
+						if(businessVec[i]->getBusName()==busToBeDel)
+
 						{
 							businessVec.erase(businessVec.begin()+i); //delete business
 							busToBeDel="";
