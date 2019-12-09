@@ -408,7 +408,7 @@ public:
 			return;
 		}
 
-		while(temp!=NULL)
+		while(temp!=NULL && temp->next!=NULL)
 		{
 			if(temp->name==name)
 			{
@@ -463,14 +463,19 @@ public:
 	{
 		storeNode* iter= head;
 
+		if(iter==NULL)
+		{
+			return NULL;
+		}
+
 		while(iter!=NULL)
 		{
 			if(iter->name==sName)
 			{
 				break;
 			}
+			iter=iter->next;
 		}
-
 		return iter;
 	}
 
