@@ -693,7 +693,7 @@ public:
 					
 					cout<<"New Product"<<endl;
 					cout<<"Name:"<<endl;
-					cin>>newName;
+					getline(cin, newName);
 					cin.clear();
 					cout<<"Price:"<<endl;
 					cin>>newPrice;
