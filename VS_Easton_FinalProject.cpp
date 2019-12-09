@@ -396,9 +396,13 @@ public:
 		storeNode* temp=head;
 		int prevCount=0;
 
+		if(temp==NULL)
+		{
+			cout<<"Store not found"<<endl;
+			return;
+		}
 
-
-		while(temp!=NULL && temp->next!=NULL)
+		while(temp!=NULL)
 		{
 			if(temp->name==name)
 			{
@@ -749,7 +753,7 @@ public:
 					cout<<"Enter the name of the store."<<endl;
 
 					string sName;
-					cin>>sName;
+					getline(cin, sName);
 					cin.clear();
 
 					storeNode* tempStore= stores.findStore(sName);
@@ -782,6 +786,7 @@ public:
 				}
 				case 6:
 				{
+					//delete store
 					cin.clear();
 					cin.ignore();
 
@@ -912,6 +917,30 @@ public:
 				case 3:
 				{
 					//Delete Business
+					cin.clear();
+					cin.ignore();
+					string busToBeDel;
+
+					cout<<"Input the name of the business you want to delete."<<endl;
+					getline(cin, busToBeDel);
+
+					for(int i=0; i< businessVec.size(); i++)
+					{
+						if(businessVec[i].getBusName()==busToBeDel)
+						{
+							businessVec.erase(businessVec.begin()+i);
+							busToBeDel="";
+							break;
+						}
+
+					}
+
+					if(busToBeDel!="")
+					{
+						cout<<"Business not found."<<endl;
+						break;
+					}
+
 					break;
 
 				}
